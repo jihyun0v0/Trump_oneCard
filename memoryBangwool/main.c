@@ -28,17 +28,17 @@ struct plyr Me;
 void init_card(void);
 void init_hand(pl_ptr);
 void print_board(void);
-//void print_shpe(int);
-//void print_num(int);
+void print_card(int);
+void print_shpe(int);
+void print_num(int);
 
 
 int main(){
     init_card();
     init_hand(&computer);
     init_hand(&Me);
-    
-    print_board();
-    
+   print_board();
+    //print_card(52);
 }
 
 void init_card(){
@@ -62,12 +62,67 @@ void init_hand(pl_ptr p){
 void print_board(){
     int i=ind-1;
     
-    printf("%d      ...\n", stack[i]);
+    print_card(stack[i]);
+    printf("  █ █ █ █ █\n\n");
     
     printf("======your card======\n");
-    for(i=0;i<Me.indx;i++)
-        printf("%d  ", Me.hand[i]);
+    for(i=0;i<Me.indx;i++){
+        print_card(Me.hand[i]);
+        printf("  ");
+    }
+    
+        
     
     
+    
+}
+
+void print_card(int num){
+    print_shpe(num);
+    print_num(num);
+}
+
+void print_shpe(int num){
+    int shape=num/13;
+    switch (shape) {
+        case 0:
+            printf("♥");
+            break;
+        case 1:
+            printf("♣");
+            break;
+        case 2:
+            printf("♠");
+            break;
+        case 3:
+            printf("♦");
+            break;
+        default:
+            printf("◑");
+            break;
+    }
+}
+void print_num(int num){
+    int number=num%13;
+    if(num/13==4)
+        return;
+    
+    switch (number) {
+        case 0:
+            printf("A");
+            break;
+        case 10:
+            printf("J");
+            break;
+        case 11:
+            printf("Q");
+            break;
+        case 12:
+            printf("K");
+            break;
+        default:
+            printf("%d", number+1);
+            break;
+    }
     
 }
