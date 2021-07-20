@@ -19,11 +19,8 @@ int card[54]={0};
 int stack[54];
 int ind=0;
 
-
 struct plyr computer;
 struct plyr Me;
-
-
 
 void init_card(void);
 void init_hand(pl_ptr);
@@ -32,12 +29,11 @@ void print_card(int);
 void print_shpe(int);
 void print_num(int);
 
-
 int main(){
     init_card();
     init_hand(&computer);
     init_hand(&Me);
-   print_board();
+    print_board();
     //print_card(52);
 }
 
@@ -70,11 +66,6 @@ void print_board(){
         print_card(Me.hand[i]);
         printf("  ");
     }
-    
-        
-    
-    
-    
 }
 
 void print_card(int num){
@@ -102,6 +93,7 @@ void print_shpe(int num){
             break;
     }
 }
+
 void print_num(int num){
     int number=num%13;
     if(num/13==4)
@@ -124,5 +116,4 @@ void print_num(int num){
             printf("%d", number+1);
             break;
     }
-    
 }
