@@ -8,17 +8,25 @@
 #define DMD 3
 #define JKR 4
 
+typedef struct plyr *pl_ptr;
+
+struct plyr{
+    int hand[47];
+    int indx;
+};
+
 int card[54]={0};
 int stack[54];
 int ind=0;
 
-int plyr1[47];
-int f_ind=7;
-int plyr2[47];
-int s_ind=7;
+
+struct plyr computer;
+struct plyr Me;
+
+
 
 void init_card(void);
-void init_hand(int *plyr);
+void init_hand(pl_ptr);
 void print_board(void);
 //void print_shpe(int);
 //void print_num(int);
@@ -26,8 +34,8 @@ void print_board(void);
 
 int main(){
     init_card();
-    init_hand(plyr1);
-    init_hand(plyr2);
+    init_hand(&computer);
+    init_hand(&Me);
     
     print_board();
     
@@ -44,19 +52,21 @@ void init_card(){
             card[random]=1;
         }
 }
-void init_hand(int *plyr){
+void init_hand(pl_ptr p){
     
     for(int i=0;i<7;i++)
-        plyr[i]=stack[--ind];
+        p->hand[i]=stack[--ind];
+    p->indx=7;
 }
 
 void print_board(){
     int i=ind-1;
+    
     printf("%d      ...\n", stack[i]);
     
     printf("======your card======\n");
-    for(i=0;i<f_ind;i++)
-        printf("%d  ", plyr1[i]);
+    for(i=0;i<Me.indx;i++)
+        printf("%d  ", Me.hand[i]);
     
     
     
