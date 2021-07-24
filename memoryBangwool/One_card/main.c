@@ -16,8 +16,10 @@ struct plyr{
 };
 
 int card[54]={0};
-int stack[54];
-int ind=0;
+int draw_stack[54];
+int ind=-1;
+int game_stack[54];
+int g_ind=-1;
 int LOOSE=1;
 int attack;
 
@@ -56,22 +58,24 @@ void init_card(){
     
     for(;ind<54;)
         if(!card[random=rand()%55]){
-            stack[ind++]=random;
+            draw_stack[++ind]=random;
             card[random]=1;
         }
+    
+    game_stack[++g_ind]=draw_stack[ind--];
 }
 
 void init_hand(pl_ptr p){
     
     for(int i=0;i<7;i++)
-        p->hand[i]=stack[--ind];
+        p->hand[i]=draw_stack[ind--];
     p->indx=7;
 }
 
 void print_board(){
     int i=ind-1;
     
-    print_card(stack[i]);
+    print_card(game_stack[g_ind]);
     printf("  █ █ █ █ █\n\n");
     
     printf("======your card======\n");
