@@ -56,3 +56,4 @@ dkms.conf
 *.xcworkspacedata
 *.xcbkptlist
 *.xcodeproj
+.DS_Store
