@@ -21,7 +21,7 @@ int ind=-1;              //뽑는 스텍 인덱스
 int put_stack[54];      //카드 내는 스택
 int p_ind=-1;            //카드 내는 스택 인덱스
 int LOOSE=1;
-int attack;
+int attack_ind;
 
 struct plyr computer;
 struct plyr Me;
@@ -34,8 +34,8 @@ void print_board(void);
 void print_card(int);
 void print_shpe(int);
 void print_num(int);
-
 void put_card(int num);
+int set_attack(int *index);
 
 
 int main(){
@@ -45,8 +45,12 @@ int main(){
     
     //while(LOOSE){
     print_board();
-    printf("\nput index of card to attack:");
-    scanf("%d", &attack);
+   printf("\nput index of card to attack:");
+    scanf("%d", &attack_ind);
+    if(set_attack(&attack_ind));
+       // attack(attack_ind);
+   
+    
 
     
 }
@@ -141,3 +145,25 @@ void print_num(int num){
     
 }
 
+
+int set_attack(int * index){
+    (*index)--;
+    while((Me.hand[*index])==-1)(*index)++;
+   // (*index)--;
+    
+    int card=Me.hand[*index];
+    int test_card=put_stack[p_ind];
+
+    if(!(card>=52||card%13==test_card%13||card/13==test_card/13)){
+        printf("your card is not right");
+        return -1;
+        }
+    
+    
+        put_stack[++p_ind]=card;
+        Me.hand[*index]=-1;
+       if(card==52||card==53||card%13==0||card%13==1)
+           return 1;
+        return 0;
+    
+}
