@@ -16,10 +16,10 @@ struct plyr{
 };
 
 int card[54]={0};
-int draw_stack[54];
-int ind=-1;
-int game_stack[54];
-int g_ind=-1;
+int draw_stack[54];             //뽑는 스택
+int ind=-1;              //뽑는 스텍 인덱스
+int put_stack[54];      //카드 내는 스택
+int p_ind=-1;            //카드 내는 스택 인덱스
 int LOOSE=1;
 int attack;
 
@@ -62,7 +62,7 @@ void init_card(){
             card[random]=1;
         }
     
-    game_stack[++g_ind]=draw_stack[ind--];
+    put_stack[++p_ind]=draw_stack[ind--];
 }
 
 void init_hand(pl_ptr p){
@@ -75,7 +75,7 @@ void init_hand(pl_ptr p){
 void print_board(){
     int i=ind-1;
     
-    print_card(game_stack[g_ind]);
+    print_card(put_stack[p_ind]);
     printf("  █ █ █ █ █\n\n");
     
     printf("======your card======\n");
@@ -111,7 +111,7 @@ void print_shpe(int num){
             printf("♦");
             break;
         default:
-            printf("JOCKER");
+            printf("JKR");
             break;
     }
 }
