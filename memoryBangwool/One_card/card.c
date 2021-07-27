@@ -9,6 +9,7 @@ int attack(int index)
     }
     
     int Card=Me.hand[index];
+    Me.hand[index]=-1;
     
     switch (Card) {
         case 52:
@@ -30,6 +31,7 @@ int attack(int index)
             }
     }
     
+    
     // A=0(3), 2=1(2), Joker=52,53
     
 }
@@ -40,14 +42,3 @@ void defend()
 }
 
 
-int check_attack(int index){
-    int card=Me.hand[index];
-    int test_card=stack[ind];
-    
-    if(card>=52)
-        return 1;
-    if(card%13==test_card%13||card/13==test_card/13)
-        return 1;
-    return 0;
-    
-}
