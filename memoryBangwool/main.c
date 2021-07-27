@@ -3,9 +3,9 @@
 #include <time.h>
 
 #define HRT 0
-#define SPDE 1
+#define DMD 1
 #define CLVR 2
-#define DMD 3
+#define SPDE 3
 #define JKR 4
 
 typedef struct plyr *pl_ptr;
@@ -38,7 +38,7 @@ void put_card(int num);
 int set_attack(int *index);
 int attack(int index);
 void defend(void);
-
+int check_defend(int card, int input_card)
 
 int main(){
     init_card();
@@ -50,7 +50,7 @@ int main(){
    printf("\nput index of card to attack:");
     scanf("%d", &attack_ind);
     if(set_attack(&attack_ind));
-       // attack(attack_ind);
+       attack(attack_ind);
    
     
 
@@ -108,13 +108,13 @@ void print_shpe(int num){
             printf("♥");
             break;
         case 1:
-            printf("♣");
+            printf("♦");
             break;
         case 2:
-            printf("♠");
+            printf("♣");
             break;
         case 3:
-            printf("♦");
+            printf("♠");
             break;
         default:
             printf("JKR");
@@ -148,7 +148,7 @@ void print_num(int num){
 }
 
 
-int set_attack(int * index){
+int set_attack(int *index){
     (*index)--;
     while((Me.hand[*index])==-1)(*index)++;
    // (*index)--;
@@ -206,9 +206,50 @@ int attack(int index)
     
 }
 
-void defend()
-{
-    // A, 2, 3, Joker
+int defend(int from)
+{   int i,j, MyC_ind, my_card;
+    int def_score=0;
+    
+    for(i=from;i<=p_ind;i++){
+        print_card(put_stack[i]);
+        printf("======your card======\n");
+        printf("index:\t");
+        for(j=0;j<Me.indx;j++)
+            printf("%d\t", j+1);
+        printf("\ncard:\t");
+        for(j=0;j<Me.indx;j++){
+            print_card(Me.hand[j]);
+            printf("\t");
+        }
+        printf("\ninput your card's index to defend");
+        scanf("%d", &MyC_ind);
+        my_card=Me.hand[MyC_ind-1];
+        
+        
+        
+        if(check_defend(put_stack[i], my_card)){
+            def_score+=get_score(put_stack[i]);
+        }
+        
+        
+    }
+    
 }
 
 
+int check_defend(int card, int input_card){
+    //컬러조커는 스페이드 에이스로, 흑백조커는 컬러조커로,
+    //에이스는 다른 에이스로
+    //2는 2나 에이스나 조커나 3으로
+    int attack=0, defend=0;
+    
+  
+        
+    
+    
+}
+    
+
+int get_score(int card){
+    
+}
