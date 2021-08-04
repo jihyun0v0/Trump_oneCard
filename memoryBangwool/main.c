@@ -12,7 +12,7 @@ typedef struct plyr *pl_ptr;
 
 struct plyr{
     int hand[47];
-    int indx;
+    int indx;           //핸드 카드 인덱스
 };
 
 int card[54]={0};
@@ -21,7 +21,7 @@ int ind=-1;              //뽑는 스텍 인덱스
 int put_stack[54];      //카드 내는 스택
 int p_ind=-1;            //카드 내는 스택 인덱스
 int LOOSE=1;
-int attack_ind;
+int put_ind;         //카드 낼 때 해당 카드의 번호
 
 struct plyr computer;
 struct plyr Me;
@@ -35,10 +35,13 @@ void print_card(int);
 void print_shpe(int);
 void print_num(int);
 void put_card(int num);
-int set_attack(int *index);
+int set_attack(int index);
 int attack(int index);
-int defend(void);
+int defend(int from);
 int check_defend(int card, int input_card);
+int get_score(int card);
+int put_check(int card);
+
 
 int main(){
     init_card();
@@ -47,10 +50,11 @@ int main(){
     
     //while(LOOSE){
     print_board();
-    printf("\nput index of card to attack:");
-    scanf("%d", &attack_ind);
-    if(set_attack(attack_ind));
-       attack(attack_ind);
+    printf("\nput index of card :");
+    scanf("%d", &put_ind);
+    
+    if(set_attack(put_ind));
+       attack(put_ind);
    
     
 
@@ -148,27 +152,32 @@ void print_num(int num){
 }
 
 
-int set_attack(int *index){
-    (*index)--;
-    while((Me.hand[*index])==-1)(*index)++;
+int set_attack(int index){
+    (index)--;
+    while((Me.hand[index])==-1)(index)++;
     // (*index)--;
     
-    int card=Me.hand[*index];
+    int card=Me.hand[index];
     int test_card=put_stack[p_ind];
-
-    if(!(card>=52||card%13==test_card%13||card/13==test_card/13))
-    {
-        printf("your card is not right");
-        return -1;
-    }
-    
+    put_check(card);
     put_stack[++p_ind]=card;
-    Me.hand[*index]=-1;
-    if(card==52||card==53||card%13==0||card%13==1)
+    Me.hand[index]=-1;
+    if(card==52||card==53||card%13==0||card%13==1)      //공격카드인지 확인
         return 1;
 
     return 0;
 }
+
+int put_check(card){
+    int test_card=put_stack[p_ind];
+    if(card>=52||card%13==test_card%13||card/13==test_card/13)
+        return 1;
+
+    printf("your card is not right");
+    return 0;
+    
+}
+
 
 int attack(int index)
 {
