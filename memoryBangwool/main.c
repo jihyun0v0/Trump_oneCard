@@ -37,8 +37,8 @@ void print_num(int);
 void put_card(int num);
 int set_attack(int *index);
 int attack(int index);
-void defend(void);
-int check_defend(int card, int input_card)
+int defend(void);
+int check_defend(int card, int input_card);
 
 int main(){
     init_card();
@@ -47,9 +47,9 @@ int main(){
     
     //while(LOOSE){
     print_board();
-   printf("\nput index of card to attack:");
+    printf("\nput index of card to attack:");
     scanf("%d", &attack_ind);
-    if(set_attack(&attack_ind));
+    if(set_attack(attack_ind));
        attack(attack_ind);
    
     
@@ -151,23 +151,23 @@ void print_num(int num){
 int set_attack(int *index){
     (*index)--;
     while((Me.hand[*index])==-1)(*index)++;
-   // (*index)--;
+    // (*index)--;
     
     int card=Me.hand[*index];
     int test_card=put_stack[p_ind];
 
-    if(!(card>=52||card%13==test_card%13||card/13==test_card/13)){
+    if(!(card>=52||card%13==test_card%13||card/13==test_card/13))
+    {
         printf("your card is not right");
         return -1;
-        }
+    }
     
-    
-        put_stack[++p_ind]=card;
-        Me.hand[*index]=-1;
-       if(card==52||card==53||card%13==0||card%13==1)
-           return 1;
-        return 0;
-    
+    put_stack[++p_ind]=card;
+    Me.hand[*index]=-1;
+    if(card==52||card==53||card%13==0||card%13==1)
+        return 1;
+
+    return 0;
 }
 
 int attack(int index)
@@ -175,35 +175,22 @@ int attack(int index)
     while((Me.hand[index++])!=-1);
     index--;
     
-    if(!set_attack(index)){
-        printf("your card is not right\n");
-        return -1;
-    }
-    
     int Card=Me.hand[index];
     
-    switch (Card) {
-        case 52:
-            return 9;
-            break;
-        case 53:
-            return 7;
-            break;
-        default:
-            switch(Card%13){
-                case 0:
-                if((Card/13)==SPDE)
-                    return 5;
-                return 3;
-                case 1:
-                    return 2;
-                default:
-                    return 0;
-            }
+    if (Card == 52) return 9;
+    else if (Card == 53) return 7;
+    else
+    {
+        if (Card % 13 == 0)
+        {
+            if (Card / 13 == SPDE) return 5;
+            return 3;
+        }
+        else if (Card % 13 == 1) return 2;
     }
     
     // A=0(3), 2=1(2), Joker=52,53
-    
+    return 0;
 }
 
 int defend(int from)
@@ -214,9 +201,11 @@ int defend(int from)
         print_card(put_stack[i]);
         printf("======your card======\n");
         printf("index:\t");
+        
         for(j=0;j<Me.indx;j++)
             printf("%d\t", j+1);
         printf("\ncard:\t");
+
         for(j=0;j<Me.indx;j++){
             print_card(Me.hand[j]);
             printf("\t");
