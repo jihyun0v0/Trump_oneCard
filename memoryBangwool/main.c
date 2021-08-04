@@ -41,6 +41,8 @@ int defend(int from);
 int check_defend(int card, int input_card);
 int get_score(int card);
 int put_check(int card);
+void put_card(int index);
+void remove_hand(int index);
 
 
 int main(){
@@ -50,14 +52,29 @@ int main(){
     
     //while(LOOSE){
     print_board();
+
     printf("\nput index of card :");
     scanf("%d", &put_ind);
-    
-    if(set_attack(put_ind));
-       attack(put_ind);
-   
+    put_card(put_ind);
     
 
+    
+}
+
+void put_card(int index)
+{
+    int card = Me.hand[index];
+    int damage = 0;
+
+    if (!put_check(card)) return ;
+
+    put_stack[++p_ind]=card;
+    remove_hand(index);
+
+    if (card==52||card==53||card%13==0||card%13==1) 
+    {
+        damage += attack(index);
+    }
     
 }
 
@@ -151,23 +168,6 @@ void print_num(int num){
     
 }
 
-
-int set_attack(int index){
-    (index)--;
-    while((Me.hand[index])==-1)(index)++;
-    // (*index)--;
-    
-    int card=Me.hand[index];
-    int test_card=put_stack[p_ind];
-    put_check(card);
-    put_stack[++p_ind]=card;
-    Me.hand[index]=-1;
-    if(card==52||card==53||card%13==0||card%13==1)      //공격카드인지 확인
-        return 1;
-
-    return 0;
-}
-
 int put_check(card){
     int test_card=put_stack[p_ind];
     if(card>=52||card%13==test_card%13||card/13==test_card/13)
@@ -181,9 +181,6 @@ int put_check(card){
 
 int attack(int index)
 {
-    while((Me.hand[index++])!=-1);
-    index--;
-    
     int Card=Me.hand[index];
     
     if (Card == 52) return 9;
@@ -250,4 +247,13 @@ int check_defend(int card, int input_card){
 
 int get_score(int card){
     
+}
+
+void remove_hand(int index)
+{
+    for (int i = index; i < Me.indx; i++)
+    {
+        Me.hand[i] = Me.hand[i + 1];
+    }
+    --Me.indx;
 }
