@@ -21,6 +21,8 @@ int ind=-1;              //뽑는 스텍 인덱스
 int put_stack[54];      //카드 내는 스택
 int p_ind=-1;            //카드 내는 스택 인덱스
 int LOOSE=1;
+int turn=-1;            //플레이어가 공격할 때 0, 컴퓨터가 공격할 때 1, 공격이 아닐 때 -1
+int damage = 0;
 
 struct plyr computer;
 struct plyr Me;
@@ -34,7 +36,6 @@ void print_card(int);
 void print_shpe(int);
 void print_num(int);
 void put_card(int num);
-int set_attack(int index);
 int attack(int index);
 int defend(int from);
 int check_defend(int card, int input_card);
@@ -52,12 +53,22 @@ int main(){
     //while(LOOSE){
     print_board();
 
-    while ((Me.indx < 20 || computer.indx < 20) || (Me.indx != 0 || computer.indx != 0))
+    while ((Me.indx < 20 || computer.indx < 20) || (Me.indx > 0 || computer.indx > 0))
     {
         put_card();
         //computer put_card()
+        if (turn == 0 && attack > 0)
+        {
+            for(int i=0;i<attack;i++) computer.hand[computer.indx] = draw_stack[ind--];
+            put_card();
+        }
+        else if (turn == 1 && attack > 0)
+        {
+            for(int i=0;i<attack;i++) Me.hand[Me.indx] = draw_stack[ind--];
+            //computer put_card()
+        }
+        damage = 0;
     } 
-    
 
     
 }
@@ -70,7 +81,6 @@ void put_card()
     scanf("%d", &index);
 
     int card = Me.hand[index];
-    int damage = 0;
 
     if (!put_check(card)) return ;
 
@@ -80,6 +90,7 @@ void put_card()
     if (card==52||card==53||card%13==0||card%13==1) 
     {
         damage += attack(card);
+        turn = 0;
     }
     
 }
@@ -89,10 +100,9 @@ void init_card(){
     
     srand(time(NULL));
     
-    for(;ind<54;)
-        if(!card[random=rand()%55]){
+    for(;ind<53;)
+        if(!card[random=rand()%54]){
             draw_stack[++ind]=random;
-            card[random]=1;
         }
     
     put_stack[++p_ind]=draw_stack[ind--];
