@@ -57,14 +57,14 @@ int main(){
     {
         put_card();
         //computer put_card()
-        if (turn == 0 && attack > 0)
+        if (turn == 0 && damage > 0)
         {
-            for(int i=0;i<attack;i++) computer.hand[computer.indx] = draw_stack[ind--];
+            for(int i=0;i<damage;i++) computer.hand[computer.indx] = draw_stack[ind--];
             put_card();
         }
-        else if (turn == 1 && attack > 0)
+        else if (turn == 1 && damage > 0)
         {
-            for(int i=0;i<attack;i++) Me.hand[Me.indx] = draw_stack[ind--];
+            for(int i=0;i<damage;i++) Me.hand[Me.indx] = draw_stack[ind--];
             //computer put_card()
         }
         damage = 0;
