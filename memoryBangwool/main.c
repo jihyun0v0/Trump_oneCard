@@ -21,7 +21,6 @@ int ind=-1;              //뽑는 스텍 인덱스
 int put_stack[54];      //카드 내는 스택
 int p_ind=-1;            //카드 내는 스택 인덱스
 int LOOSE=1;
-int put_ind;         //카드 낼 때 해당 카드의 번호
 
 struct plyr computer;
 struct plyr Me;
@@ -41,7 +40,7 @@ int defend(int from);
 int check_defend(int card, int input_card);
 int get_score(int card);
 int put_check(int card);
-void put_card(int index);
+void put_card();
 void remove_hand(int index);
 
 
@@ -53,27 +52,34 @@ int main(){
     //while(LOOSE){
     print_board();
 
-    printf("\nput index of card :");
-    scanf("%d", &put_ind);
-    put_card(put_ind);
+    while ((Me.indx < 20 || computer.indx < 20) || (Me.indx != 0 || computer.indx != 0))
+    {
+        put_card();
+        //computer put_card()
+    } 
     
 
     
 }
 
-void put_card(int index)
+void put_card()
 {
+    int index;
+
+    printf("\nput index of card :");
+    scanf("%d", &index);
+
     int card = Me.hand[index];
     int damage = 0;
 
     if (!put_check(card)) return ;
 
     put_stack[++p_ind]=card;
-    remove_hand(index);
+    remove_hand(&Me, index);
 
     if (card==52||card==53||card%13==0||card%13==1) 
     {
-        damage += attack(index);
+        damage += attack(card);
     }
     
 }
@@ -179,20 +185,19 @@ int put_check(card){
 }
 
 
-int attack(int index)
+int attack(int card)
 {
-    int Card=Me.hand[index];
     
-    if (Card == 52) return 9;
-    else if (Card == 53) return 7;
+    if (card == 52) return 9;
+    else if (card == 53) return 7;
     else
     {
-        if (Card % 13 == 0)
+        if (card % 13 == 0)
         {
-            if (Card / 13 == SPDE) return 5;
+            if (card / 13 == SPDE) return 5;
             return 3;
         }
-        else if (Card % 13 == 1) return 2;
+        else if (card % 13 == 1) return 2;
     }
     
     // A=0(3), 2=1(2), Joker=52,53
@@ -249,11 +254,11 @@ int get_score(int card){
     
 }
 
-void remove_hand(int index)
+void remove_hand(pl_ptr plyr, int index)
 {
-    for (int i = index; i < Me.indx; i++)
+    for (int i = index; i < plyr->indx; i++)
     {
-        Me.hand[i] = Me.hand[i + 1];
+        plyr->hand[i] = plyr->hand[i + 1];
     }
-    --Me.indx;
+    plyr->indx -= 1;
 }
