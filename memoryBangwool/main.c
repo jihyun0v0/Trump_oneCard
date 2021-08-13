@@ -282,7 +282,8 @@ void computer_put_card(){
     int tmp;
     int putable[20]={0};
     int put_len=0;
-    
+
+
     
     srand(time(NULL));
     
@@ -314,10 +315,28 @@ void computer_put_card(){
     }
     }
     
-    if(put_len==0)
+    if(put_len==0){      //낼 카드가 없을 경우
         computer.hand[computer.indx++]=draw_stack[ind--];
+        return;
+    }
+    
     
     tmp=rand()%put_len;
+    
+    if(computer.hand[tmp]>51||computer.hand[tmp]%13<2){
+        turn=1;
+    if(computer.hand[tmp]==53)
+        damage+=9;
+    else if(computer.hand[tmp]==52)
+        damage+=7;
+    else if(computer.hand[tmp]%13==0&&computer.hand[tmp]/13==3)//spade A일 경우
+        damage+=5;
+    else if(computer.hand[tmp]%13==0)
+            damage+=3;
+    else if(computer.hand[tmp]%13==1)
+        damage+=2;
+    }
+        
     put_stack[++p_ind]=computer.hand[tmp];
     remove_hand(&computer, tmp);
      
