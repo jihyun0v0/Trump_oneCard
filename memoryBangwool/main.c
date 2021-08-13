@@ -59,7 +59,7 @@ int main(){
 
     while ((Me.indx < 20 || computer.indx < 20) || (Me.indx > 0 || computer.indx > 0))
     {
-        //put_card();
+        put_card();
         computer_put_card();
         if (turn == 0 && damage > 0)
         {
@@ -69,11 +69,11 @@ int main(){
         else if (turn == 1 && damage > 0)
         {
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
-            //computer put_card()
+            computer_put_card();
             turn = -1;
 
-            for(int i=0;i<damage;i++) computer.hand[computer.indx] = draw_stack[ind--];
-            //put_card();
+            for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
+            put_card();
         }
         else if (turn == 1 && damage > 0)
         {
@@ -94,8 +94,8 @@ void put_card()
     printf("\nput index of card (0 is skip):");
     scanf("%d", &index);
 
-    if (!index) 
-    {   
+    if (!index)
+    {
         if (turn == -1)
         {
             Me.hand[Me.indx++] = draw_stack[ind--];
@@ -104,7 +104,7 @@ void put_card()
         else return ;
     }
 
-    int card = Me.hand[index];
+    int card = Me.hand[index-1];
 
     if (!put_check(card))
     {
@@ -112,7 +112,7 @@ void put_card()
         return ;
     }
 
-    if (turn)
+    if(turn==1)
     {
         if (!(card==52||card==53||card%13==0||card%13==1))
         {
@@ -122,8 +122,8 @@ void put_card()
         }
     }
 
-    put_stack[++p_ind]=card; 
-    remove_hand(&Me, index);
+    put_stack[++p_ind]=card;
+    remove_hand(&Me, index-1);
 
     if (card==52||card==53||card%13==0||card%13==1)
     {
@@ -252,38 +252,6 @@ int attack(int card)
     return 0;
 }
 
-int defend(int from)
-{   int i,j, MyC_ind, my_card;
-    int def_score=0;
-    
-    for(i=from;i<=p_ind;i++){
-        print_card(put_stack[i]);
-        printf("======your card======\n");
-        printf("index:\t");
-        
-        for(j=0;j<Me.indx;j++)
-            printf("%d\t", j+1);
-        printf("\ncard:\t");
-
-        for(j=0;j<Me.indx;j++){
-            print_card(Me.hand[j]);
-            printf("\t");
-        }
-        printf("\ninput your card's index to defend");
-        scanf("%d", &MyC_ind);
-        my_card=Me.hand[MyC_ind-1];
-        
-        
-        
-        if(check_defend(put_stack[i], my_card)){
-            def_score+=get_score(put_stack[i]);
-        }
-        
-        
-    }
-    return 0;
-}
-
 
 int check_defend(int card, int input_card){
     //컬러조커는 스페이드 에이스로, 흑백조커는 컬러조커로,
@@ -325,19 +293,22 @@ void computer_put_card(){
     if(card>51||card%13<2){             //스택에 놓여진 카드가 공격 카드인 경우
        
             if(card%13==0) {             //스텍에 놓인 카드가 A
-                for(int i=0;i<computer.indx;i++)
+                for(int i=0;i<computer.indx;i++){
                     if(computer.hand[i]%13==0)
                         putable[put_len++]=i;
+                }
             }
             else if(card%13==1){
-                for(int i=0;i<computer.indx;i++)
+                for(int i=0;i<computer.indx;i++){
                     if(computer.hand[i]%13<3)       //A, 2, 3인 경우
                         putable[put_len++]=i;
+                }
             }
             else{
-                for(int i=0;i<computer.indx;i++)
+                for(int i=0;i<computer.indx;i++){
                     if(computer.hand[i]>51)
                         putable[put_len++]=i;
+                }
             }
     }
 
@@ -346,7 +317,7 @@ void computer_put_card(){
         for(int i=0;i<computer.indx;i++){              //일반 카드인 경우, 핸드 카드 중 가능한 카드를 랜덤으로 선택 해 놓는다.
         if(computer.hand[i]>51||computer.hand[i]%13==card%13||computer.hand[i]/13==card/13)
             putable[put_len++]=i;
-    }
+        }
     }
     
     if(put_len==0){      //낼 카드가 없을 경우
