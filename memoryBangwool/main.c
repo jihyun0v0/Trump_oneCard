@@ -55,14 +55,14 @@ int main(){
     {
         put_card();
         computer_put_card();
-        if (turn == 0 && damage > 0)
+        if (turn == 0 && damage > 0 && !a_turn)
         {
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
             turn = -1;
             damage = 0;
             a_turn = 1;
         }
-        else if (turn == 1 && damage > 0)
+        else if (turn == 1 && damage > 0 && !a_turn)
         {
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
             turn = -1;
@@ -130,6 +130,7 @@ void init_card(){
     for(;ind<53;)
         if(!card[random=rand()%54]){
             draw_stack[++ind]=random;
+            card[random]=1;
         }
     
     put_stack[++p_ind]=draw_stack[ind--];
@@ -290,13 +291,17 @@ void computer_put_card()
     }
     
     if(put_len==0) {      //낼 카드가 없을 경우
+        if(!turn){
+            a_turn=0;
+            return;
+        }
         computer.hand[computer.indx++]=draw_stack[ind--];
         return;
     }
     
     tmp=rand()%put_len;
     
-    if(computer.hand[tmp]>51||computer.hand[tmp]%13<2) 
+    if(computer.hand[tmp]>51||computer.hand[tmp]%13<2)
     {
         turn=1;
         if(computer.hand[tmp]==53)
