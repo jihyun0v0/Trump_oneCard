@@ -59,13 +59,14 @@ int main(){
         //computer put_card()
         if (turn == 0 && damage > 0)
         {
-            for(int i=0;i<damage;i++) computer.hand[computer.indx] = draw_stack[ind--];
-            put_card();
+            for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
+            turn = -1;
         }
         else if (turn == 1 && damage > 0)
         {
-            for(int i=0;i<damage;i++) Me.hand[Me.indx] = draw_stack[ind--];
+            for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
             //computer put_card()
+            turn = -1;
         }
         damage = 0;
     } 
@@ -77,14 +78,38 @@ void put_card()
 {
     int index;
 
-    printf("\nput index of card :");
+    printf("\nput index of card (0 is skip):");
     scanf("%d", &index);
+
+    if (!index) 
+    {   
+        if (turn == -1)
+        {
+            Me.hand[Me.indx++] = draw_stack[ind--];
+            return ;
+        }
+        else return ;
+    }
 
     int card = Me.hand[index];
 
-    if (!put_check(card)) return ;
+    if (!put_check(card))
+    {
+        put_card();
+        return ;
+    }
 
-    put_stack[++p_ind]=card;
+    if (turn)
+    {
+        if (!(card==52||card==53||card%13==0||card%13==1))
+        {
+            printf("your card is not right");
+            put_card();
+            return ;
+        }
+    }
+
+    put_stack[++p_ind]=card; 
     remove_hand(&Me, index);
 
     if (card==52||card==53||card%13==0||card%13==1) 
