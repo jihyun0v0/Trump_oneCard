@@ -22,6 +22,7 @@ int put_stack[54];      //카드 내는 스택
 int p_ind=-1;            //카드 내는 스택 인덱스
 int LOOSE=1;
 int turn=-1;            //플레이어가 공격할 때 0, 컴퓨터가 공격할 때 1, 공격이 아닐 때 -1
+int a_turn=1;
 int damage = 0;
 
 struct plyr computer;
@@ -58,23 +59,16 @@ int main(){
         {
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
             turn = -1;
+            damage = 0;
+            a_turn = 1;
         }
         else if (turn == 1 && damage > 0)
         {
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
-            computer_put_card();
             turn = -1;
-
-            for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
-            put_card();
+            damage = 0;
+            a_turn = 1;
         }
-        else if (turn == 1 && damage > 0)
-        {
-            for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
-            computer_put_card();
-
-        }
-        damage = 0;
     }
 }
 
@@ -92,7 +86,11 @@ void put_card()
             Me.hand[Me.indx++] = draw_stack[ind--];
             return ;
         }
-        else return ;
+        else
+        {
+            a_turn = 0;
+            return ;
+        }
     }
 
     int card = Me.hand[index-1];
