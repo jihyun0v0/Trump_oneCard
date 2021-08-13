@@ -74,6 +74,7 @@ int main(){
 
 void put_card()
 {
+    print_board();
     int index;
 
     printf("\nput index of card (0 is skip):");
