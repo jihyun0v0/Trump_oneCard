@@ -35,14 +35,18 @@ void print_board(void);
 void print_card(int);
 void print_shpe(int);
 void print_num(int);
-void put_card(int num);
+void put_card();
 int attack(int index);
 int defend(int from);
 int check_defend(int card, int input_card);
 int get_score(int card);
 int put_check(int card);
 void put_card();
-void remove_hand(int index);
+void remove_hand(pl_ptr plyr, int index);
+
+void computer_put_card();
+
+
 
 
 int main(){
@@ -55,8 +59,8 @@ int main(){
 
     while ((Me.indx < 20 || computer.indx < 20) || (Me.indx > 0 || computer.indx > 0))
     {
-        put_card();
-        //computer put_card()
+        //put_card();
+        computer_put_card();
         if (turn == 0 && damage > 0)
         {
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
@@ -67,9 +71,18 @@ int main(){
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
             //computer put_card()
             turn = -1;
+
+            for(int i=0;i<damage;i++) computer.hand[computer.indx] = draw_stack[ind--];
+            //put_card();
+        }
+        else if (turn == 1 && damage > 0)
+        {
+            for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
+            computer_put_card();
+
         }
         damage = 0;
-    } 
+    }
 
     
 }
@@ -112,7 +125,7 @@ void put_card()
     put_stack[++p_ind]=card; 
     remove_hand(&Me, index);
 
-    if (card==52||card==53||card%13==0||card%13==1) 
+    if (card==52||card==53||card%13==0||card%13==1)
     {
         damage += attack(card);
         turn = 0;
@@ -268,7 +281,7 @@ int defend(int from)
         
         
     }
-    
+    return 0;
 }
 
 
@@ -280,13 +293,13 @@ int check_defend(int card, int input_card){
     
   
         
-    
+    return 0;
     
 }
     
 
 int get_score(int card){
-    
+    return 0;
 }
 
 void remove_hand(pl_ptr plyr, int index)
@@ -297,3 +310,69 @@ void remove_hand(pl_ptr plyr, int index)
     }
     plyr->indx -= 1;
 }
+
+void computer_put_card(){
+    int card=put_stack[p_ind];
+    int tmp;
+    int putable[20]={0};
+    int put_len=0;
+
+
+    
+    srand(time(NULL));
+    
+   
+    if(card>51||card%13<2){             //스택에 놓여진 카드가 공격 카드인 경우
+       
+            if(card%13==0) {             //스텍에 놓인 카드가 A
+                for(int i=0;i<computer.indx;i++)
+                    if(computer.hand[i]%13==0)
+                        putable[put_len++]=i;
+            }
+            else if(card%13==1){
+                for(int i=0;i<computer.indx;i++)
+                    if(computer.hand[i]%13<3)       //A, 2, 3인 경우
+                        putable[put_len++]=i;
+            }
+            else{
+                for(int i=0;i<computer.indx;i++)
+                    if(computer.hand[i]>51)
+                        putable[put_len++]=i;
+            }
+    }
+
+       
+    else{
+        for(int i=0;i<computer.indx;i++){              //일반 카드인 경우, 핸드 카드 중 가능한 카드를 랜덤으로 선택 해 놓는다.
+        if(computer.hand[i]>51||computer.hand[i]%13==card%13||computer.hand[i]/13==card/13)
+            putable[put_len++]=i;
+    }
+    }
+    
+    if(put_len==0){      //낼 카드가 없을 경우
+        computer.hand[computer.indx++]=draw_stack[ind--];
+        return;
+    }
+    
+    
+    tmp=rand()%put_len;
+    
+    if(computer.hand[tmp]>51||computer.hand[tmp]%13<2){
+        turn=1;
+    if(computer.hand[tmp]==53)
+        damage+=9;
+    else if(computer.hand[tmp]==52)
+        damage+=7;
+    else if(computer.hand[tmp]%13==0&&computer.hand[tmp]/13==3)//spade A일 경우
+        damage+=5;
+    else if(computer.hand[tmp]%13==0)
+            damage+=3;
+    else if(computer.hand[tmp]%13==1)
+        damage+=2;
+    }
+        
+    put_stack[++p_ind]=computer.hand[tmp];
+    remove_hand(&computer, tmp);
+     
+}
+
