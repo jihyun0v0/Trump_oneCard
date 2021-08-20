@@ -53,6 +53,7 @@ int main(){
     {
         put_card();
         computer_put_card();
+        
         if (turn == 0 && damage > 0 && !a_turn)
         {
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
@@ -314,7 +315,7 @@ void computer_put_card()
     
     tmp=rand()%put_len;
     
-    if(computer.hand[tmp]>51||computer.hand[tmp]%13<2)
+    if(computer.hand[putable[tmp]]>51||computer.hand[putable[tmp]]%13<2)
     {
         turn=1;
         if(computer.hand[tmp]==53)
@@ -329,7 +330,7 @@ void computer_put_card()
             damage+=2;
     }
         
-    put_stack[++p_ind]=computer.hand[tmp];
-    remove_hand(&computer, tmp);
+    put_stack[++p_ind]=computer.hand[putable[tmp]];
+    remove_hand(&computer, putable[tmp]);
 }
 
