@@ -46,8 +46,8 @@ void computer_put_card();
 
 int main(){
     init_card();
-    init_hand(&computer);
     init_hand(&Me);
+    init_hand(&computer);
 
     while (Me.indx < 20 && computer.indx < 20 && Me.indx > 0 && computer.indx > 0)
     {
@@ -273,17 +273,16 @@ void computer_put_card()
 
     srand(time(NULL));
     
-    if(card>51||card%13<2) {             //스택에 놓여진 카드가 공격 카드인 경우
-       
-            if(card%13==0) {             //스텍에 놓인 카드가 A
-                for(int i=0;i<computer.indx;i++) {
-                    if(computer.hand[i]%13==0)
-                        putable[put_len++]=i;
+    if(!turn) {             //스택에 놓여진 카드가 공격 카드인 경우
+        if(card%13==0&&card<52) {             //스텍에 놓인 카드가 A
+            for(int i=0;i<computer.indx;i++) {
+                if(computer.hand[i]%13==0)
+                    putable[put_len++]=i;
                 }
             }
-            else if(card%13==1) {
+            else if(card%13==1&&card<52) {
                 for(int i=0;i<computer.indx;i++) {
-                    if(computer.hand[i]%13==1)       //A, 2, 3인 경우
+                    if(computer.hand[i]%13==1)       //2인 경우
                         putable[put_len++]=i;
                     if((computer.hand[i]%13==0||computer.hand[i]%13==2)&&computer.hand[i]/13==card/13)
                         putable[put_len++]=i;
@@ -318,15 +317,15 @@ void computer_put_card()
     if(computer.hand[putable[tmp]]>51||computer.hand[putable[tmp]]%13<2)
     {
         turn=1;
-        if(computer.hand[tmp]==53)
+        if(computer.hand[putable[tmp]]==53)
             damage+=9;
-        else if(computer.hand[tmp]==52)
+        else if(computer.hand[putable[tmp]]==52)
             damage+=7;
-        else if(computer.hand[tmp]%13==0&&computer.hand[tmp]/13==3)//spade A일 경우
+        else if(computer.hand[putable[tmp]]%13==0&&computer.hand[putable[tmp]]/13==3)//spade A일 경우
             damage+=5;
-        else if(computer.hand[tmp]%13==0)
+        else if(computer.hand[putable[tmp]]%13==0)
                 damage+=3;
-        else if(computer.hand[tmp]%13==1)
+        else if(computer.hand[putable[tmp]]%13==1)
             damage+=2;
     }
         
