@@ -282,7 +282,9 @@ void computer_put_card()
             }
             else if(card%13==1) {
                 for(int i=0;i<computer.indx;i++) {
-                    if(computer.hand[i]%13<3)       //A, 2, 3인 경우
+                    if(computer.hand[i]%13==1)       //A, 2, 3인 경우
+                        putable[put_len++]=i;
+                    if((computer.hand[i]%13==0||computer.hand[i]%13==2)&&computer.hand[i]/13==card/13)
                         putable[put_len++]=i;
                 }
             }
