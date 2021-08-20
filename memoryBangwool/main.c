@@ -48,10 +48,8 @@ int main(){
     init_card();
     init_hand(&computer);
     init_hand(&Me);
-    
-    print_board();
 
-    while ((Me.indx < 20 || computer.indx < 20) || (Me.indx > 0 || computer.indx > 0))
+    while (Me.indx < 20 && computer.indx < 20 && Me.indx > 0 && computer.indx > 0)
     {
         put_card();
         computer_put_card();
@@ -96,8 +94,9 @@ void put_card()
 
     int card = Me.hand[index-1];
 
-    if (!put_check(card))
+    if (!put_check(card) && turn == -1)
     {
+        printf("your card is not right\n");
         put_card();
         return ;
     }
@@ -106,7 +105,7 @@ void put_card()
     {
         if (!(card==52||card==53||card%13==0||card%13==1))
         {
-            printf("your card is not right");
+            printf("your card is not right\n");
             put_card();
             return ;
         }
@@ -157,6 +156,18 @@ void print_board(){
     printf("\ncard:\t");
     for(i=0;i<Me.indx;i++){
         print_card(Me.hand[i]);
+        printf("\t");
+    }
+    printf("\n");
+
+    printf("======computer card======\n");
+    printf("index:\t");
+    for(i=0;i<computer.indx;i++)
+        printf("%d\t", i+1);
+    printf("\ncard:\t");
+    for(i=0;i<computer.indx;i++){
+        // printf("**");
+        print_card(computer.hand[i]);
         printf("\t");
     }
     printf("\n");
@@ -214,10 +225,9 @@ void print_num(int num){
 
 int put_check(card){
     int test_card=put_stack[p_ind];
-    if(card>=52||card%13==test_card%13||card/13==test_card/13)
+    if(test_card>=52||card>=52||card%13==test_card%13||card/13==test_card/13)
         return 1;
 
-    printf("your card is not right");
     return 0;
 }
 
