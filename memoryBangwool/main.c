@@ -147,7 +147,8 @@ void init_hand(pl_ptr p){
 
 void print_board(){
     int i=ind-1;
-    
+    printf("\n");
+
     print_card(put_stack[p_ind]);
     printf("  █ █ █ █ █\n\n");
     
@@ -277,13 +278,14 @@ void computer_put_card()
     if(!turn) {             //스택에 놓여진 카드가 공격 카드인 경우
         if(card%13==0&&card<52){             //스텍에 놓인 카드가 A
             for(int i=0;i<computer.indx;i++) {
-                if(computer.hand[i]%13==0)
+                if(computer.hand[i]%13==0||computer.hand[i]>51)
                     putable[put_len++]=i;
                 }
+            
             }
             else if(card%13==1&&card<52) {      //스텍에 놓인 카드가 2
                 for(int i=0;i<computer.indx;i++) {
-                    if(computer.hand[i]%13==1)       //2인 경우
+                    if(computer.hand[i]%13==1||computer.hand[i]>51)       //2인 경우
                         putable[put_len++]=i;
                     if((computer.hand[i]%13==0||computer.hand[i]%13==2)&&computer.hand[i]/13==card/13)//A또는 3인 경우
                         putable[put_len++]=i;
