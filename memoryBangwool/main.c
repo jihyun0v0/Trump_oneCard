@@ -94,6 +94,7 @@ void put_card()
     }
 
     int card = Me.hand[index-1];
+    int p_card = put_stack[p_ind];
 
     if (!put_check(card) && turn == -1)
     {
@@ -109,6 +110,30 @@ void put_card()
             printf("your card is not right\n");
             put_card();
             return ;
+        }
+        else
+        {
+            if (p_card % 13 == 0 && p_card < 52)
+            {
+                if (card % 13 == 1)
+                {
+                    printf("your card is not right\n");
+                    put_card();
+                    return;
+                }
+            }
+            else if (p_card > 51)
+            {
+                if (card < 52)
+                {
+                    if (card % 13 == 0 || card % 13 == 1)
+                    {
+                        printf("your card is not right\n");
+                        put_card();
+                        return;
+                    }
+                }
+            }
         }
     }
 
