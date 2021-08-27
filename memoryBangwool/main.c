@@ -1,3 +1,10 @@
+//0-12 하트
+//13-25 다이아몬드
+//26-38 클로버
+//39-51 스페이드
+//52 흑백조커(7장)
+//53 컬러조커(9장)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -237,8 +244,11 @@ void print_shpe(int num){
         case 3:
             printf("♠");
             break;
+        case 52:
+            printf("JK");
+            break;
         default:
-            printf("JKR");
+            printf("cJK");
             break;
     }
 }
@@ -341,7 +351,13 @@ void computer_put_card()
     }
 
     else {
-        for(int i=0;i<computer.indx;i++) {              //일반 카드인 경우, 핸드 카드 중 가능한 카드를 랜덤으로 선택 해 놓는다.
+        if(card>51)
+            for(int i=0;i<computer.indx;i++){
+                putable[put_len++]=i;
+            }
+        
+        else
+            for(int i=0;i<computer.indx;i++){              //일반 카드인 경우, 핸드 카드 중 가능한 카드를 랜덤으로 선택 해 놓는다.
             if(computer.hand[i]>51||computer.hand[i]%13==card%13||computer.hand[i]/13==card/13)
                 putable[put_len++]=i;
             }
