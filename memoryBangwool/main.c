@@ -69,6 +69,15 @@ int main(){
             a_turn = 1;
         }
     }
+
+    if (computer.indx == 0 || Me.indx > 20)
+    {
+        printf("Computer wins\n");
+    }
+    if (Me.indx == 0 || computer.indx > 20)
+    {
+        printf("Player wins\n");
+    }
 }
 
 void put_card()
@@ -312,7 +321,7 @@ void computer_put_card()
                 for(int i=0;i<computer.indx;i++) {
                     if(computer.hand[i]%13==1||computer.hand[i]>51)       //2인 경우
                         putable[put_len++]=i;
-                    if((computer.hand[i]%13==0||computer.hand[i]%13==2)&&computer.hand[i]/13==card/13)//A또는 3인 경우
+                    if(computer.hand[i]%13==0&&computer.hand[i]/13==card/13)//A또는 3인 경우
                         putable[put_len++]=i;
                 }
             }
