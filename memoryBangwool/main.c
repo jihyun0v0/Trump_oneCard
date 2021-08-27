@@ -67,7 +67,7 @@ int main(){
             if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
             turn = -1;
-            printf("damage : %d\n", damage);
+            //printf("damage : %d\n", damage);
             damage = 0;
             a_turn = 1;
         }
@@ -76,7 +76,7 @@ int main(){
             if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
             turn = -1;
-            printf("damage : %d\n", damage);
+            //printf("damage : %d\n", damage);
             damage = 0;
             a_turn = 1;
         }
@@ -89,7 +89,7 @@ int main(){
             if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
             turn = -1;
-            printf("damage : %d\n", damage);
+            //printf("damage : %d\n", damage);
             damage = 0;
             a_turn = 1;
         }
@@ -98,7 +98,7 @@ int main(){
             if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
             turn = -1;
-            printf("damage : %d\n", damage);
+            //printf("damage : %d\n", damage);
             damage = 0;
             a_turn = 1;
         }
@@ -243,8 +243,8 @@ void print_board(){
         printf("%d\t", i+1);
     printf("\ncard:\t");
     for(i=0;i<computer.indx;i++){
-        // printf("**");
-        print_card(computer.hand[i]);
+        printf("**");
+        //print_card(computer.hand[i]);
         printf("\t");
     }
     printf("\n");
@@ -331,9 +331,7 @@ int attack(int card)
     return 0;
 }
 
-int get_score(int card){
-    return 0;
-}
+
 
 void remove_hand(pl_ptr plyr, int index)
 {
