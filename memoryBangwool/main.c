@@ -75,11 +75,11 @@ int main(){
         }
     }
 
-    if (computer.indx == 0 || Me.indx > 20)
+    if (computer.indx == 0 || Me.indx > 19)
     {
         printf("Computer wins\n");
     }
-    if (Me.indx == 0 || computer.indx > 20)
+    if (Me.indx == 0 || computer.indx > 19)
     {
         printf("Player wins\n");
     }
