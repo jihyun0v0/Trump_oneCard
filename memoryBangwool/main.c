@@ -61,6 +61,26 @@ int main(){
     {
         put_card();
         if(ind<2)draw_card();
+
+        if (turn == 0 && damage > 0 && !a_turn)
+        {
+            if(ind<damage)draw_card();
+            for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
+            turn = -1;
+            printf("damage : %d\n", damage);
+            damage = 0;
+            a_turn = 1;
+        }
+        else if (turn == 1 && damage > 0 && !a_turn)
+        {
+            if(ind<damage)draw_card();
+            for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
+            turn = -1;
+            printf("damage : %d\n", damage);
+            damage = 0;
+            a_turn = 1;
+        }
+
         computer_put_card();
         if(ind<2)draw_card();
         
