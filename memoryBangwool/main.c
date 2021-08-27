@@ -270,10 +270,11 @@ void print_shpe(int num){
         case 3:
             printf("♠");
             break;
-        case 52:
-            printf("JK");
-            break;
         default:
+            if(num==52){
+                printf("JKR");
+                break;
+            }
             printf("cJK");
             break;
     }
@@ -417,6 +418,9 @@ void computer_put_card()
         
     put_stack[++p_ind]=computer.hand[putable[tmp]];
     remove_hand(&computer, putable[tmp]);
+    if(put_stack[p_ind]%13==10||put_stack[p_ind]%13==12){ //J또는 K를 냈을 경우
+        computer_put_card();
+    }
 }
 
 void draw_card(){
