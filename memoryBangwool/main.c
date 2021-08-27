@@ -43,6 +43,7 @@ int put_check(int card);
 void put_card();
 void remove_hand(pl_ptr plyr, int index);
 void computer_put_card();
+void draw_card();
 
 int main(){
     init_card();
@@ -52,10 +53,13 @@ int main(){
     while (Me.indx < 20 && computer.indx < 20 && Me.indx > 0 && computer.indx > 0)
     {
         put_card();
+        if(ind<2)draw_card();
         computer_put_card();
+        if(ind<2)draw_card();
         
         if (turn == 0 && damage > 0 && !a_turn)
         {
+            if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
             turn = -1;
             damage = 0;
@@ -63,6 +67,7 @@ int main(){
         }
         else if (turn == 1 && damage > 0 && !a_turn)
         {
+            if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
             turn = -1;
             damage = 0;
@@ -370,3 +375,15 @@ void computer_put_card()
     remove_hand(&computer, putable[tmp]);
 }
 
+void draw_card(){
+    if(ind>1) return;
+    int i, random;
+    for(i=0;i<p_ind;){
+        
+        if(put_stack[random=rand()%(p_ind+1)]==-1)continue;
+        draw_stack[++ind]=put_stack[random];
+        put_stack[random]=-1;
+        i++;
+    }
+    p_ind=-1;
+}
