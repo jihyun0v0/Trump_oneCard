@@ -62,6 +62,7 @@ int main(){
             if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) computer.hand[computer.indx++] = draw_stack[ind--];
             turn = -1;
+            printf("damage : %d\n", damage);
             damage = 0;
             a_turn = 1;
         }
@@ -70,6 +71,7 @@ int main(){
             if(ind<damage)draw_card();
             for(int i=0;i<damage;i++) Me.hand[Me.indx++] = draw_stack[ind--];
             turn = -1;
+            printf("damage : %d\n", damage);
             damage = 0;
             a_turn = 1;
         }
@@ -141,7 +143,7 @@ void put_card()
             {
                 if (card < 52)
                 {
-                    if (card % 13 == 0 || card % 13 == 1)
+                    if ((card / 13 != 3 && card % 13 == 0) || card % 13 == 1)
                     {
                         printf("your card is not right\n");
                         put_card();
