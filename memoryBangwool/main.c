@@ -164,6 +164,12 @@ void put_card()
     put_stack[++p_ind]=card;
     remove_hand(&Me, index-1);
 
+    if (card % 13 == 12 || card % 13 == 10)
+    {
+        put_card();
+        return;
+    }
+
     if (card==52||card==53||card%13==0||card%13==1)
     {
         damage += attack(card);
